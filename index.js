@@ -21,7 +21,12 @@ async function server(config) {
   app.use(cors({credentials: true, origin: '*'}));
 
   app.get('/sneaker/discovery', async function(req, res) {
-    const findSneakers = await Sneaker.load(12)
+    let page = 1;
+
+    if (req.query.page) page = req.query.page;
+
+    const findSneakers = await Sneaker.load(page);
+
     res.json({
       sneakers: findSneakers,
       error: false,

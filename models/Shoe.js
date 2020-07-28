@@ -46,9 +46,17 @@ const find = async (urlName) => {
   return findShoe
 }
 
-const load = async (amount) => {
-  const findShoes = await Shoe.find().sort({ name: 1 }).limit(amount)
-  return findShoes
+const load = async (page) => {
+  const findShoes = await Shoe.find().sort({ _id: -1 });
+  const perPage = 12;
+  const minpageNumber = (page - 1) * perPage;
+  const maxpageNumber = page * perPage;
+  const shoesOnPage = findShoes.filter((shoe, i) => {
+    if (i >= minpageNumber && i < maxpageNumber) {
+      return shoe;
+    }
+  })
+  return shoesOnPage;
 }
 
 const Sneaker = {
